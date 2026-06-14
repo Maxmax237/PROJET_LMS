@@ -1,16 +1,15 @@
 // ============================================
-// EDUTRACK - Version API (Partage multi-appareils)
+// EDUTRACK - VERSION HÉBERGÉE (PostgreSQL sur Render)
+// Partage automatique entre tous les appareils
 // ============================================
 
-// Configuration de l'API - À MODIFIER AVEC TON URL RENDER PLUS TARD
+// À MODIFIER après déploiement : mettre l'URL de ton API Render
 const API_URL = 'https://ton-api-edutrack.onrender.com/api';
 
 // ========== FONCTIONS API ==========
 
-// COURS
 async function getCourses() {
     const response = await fetch(`${API_URL}/courses`);
-    if (!response.ok) throw new Error('Erreur chargement cours');
     return await response.json();
 }
 
@@ -27,7 +26,6 @@ async function supprimerCours(id) {
     await fetch(`${API_URL}/courses/${id}`, { method: 'DELETE' });
 }
 
-// APPRENANTS
 async function getStudents() {
     const response = await fetch(`${API_URL}/students`);
     return await response.json();
@@ -46,7 +44,6 @@ async function supprimerEtudiant(id) {
     await fetch(`${API_URL}/students/${id}`, { method: 'DELETE' });
 }
 
-// INSCRIPTIONS
 async function getEnrollments() {
     const response = await fetch(`${API_URL}/enrollments`);
     return await response.json();
@@ -61,7 +58,6 @@ async function inscrireApprenant(student_id, course_id) {
     return await response.json();
 }
 
-// QUIZ
 async function getQuizzes() {
     const response = await fetch(`${API_URL}/quizzes`);
     return await response.json();
@@ -76,7 +72,6 @@ async function enregistrerResultatQuiz(quiz_id, student_id, score, reponses) {
     return await response.json();
 }
 
-// ANNONCES
 async function getAnnouncements() {
     const response = await fetch(`${API_URL}/announcements`);
     return await response.json();
@@ -105,4 +100,4 @@ window.enregistrerResultatQuiz = enregistrerResultatQuiz;
 window.getAnnouncements = getAnnouncements;
 window.ajouterAnnonce = ajouterAnnonce;
 
-console.log('✅ EduTrack version API chargée');
+console.log('✅ EduTrack version hébergée (API) chargée');
