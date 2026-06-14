@@ -2,13 +2,12 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false } // obligatoire sur Render
+    ssl: { rejectUnauthorized: false }
 });
 
 async function initDB() {
     const client = await pool.connect();
     try {
-        // Table courses
         await client.query(`
             CREATE TABLE IF NOT EXISTS courses (
                 id SERIAL PRIMARY KEY,
@@ -25,7 +24,6 @@ async function initDB() {
             )
         `);
         
-        // Table students
         await client.query(`
             CREATE TABLE IF NOT EXISTS students (
                 id SERIAL PRIMARY KEY,
@@ -37,7 +35,6 @@ async function initDB() {
             )
         `);
         
-        // Table enrollments
         await client.query(`
             CREATE TABLE IF NOT EXISTS enrollments (
                 id SERIAL PRIMARY KEY,
@@ -51,7 +48,6 @@ async function initDB() {
             )
         `);
         
-        // Table quizzes
         await client.query(`
             CREATE TABLE IF NOT EXISTS quizzes (
                 id SERIAL PRIMARY KEY,
@@ -63,7 +59,6 @@ async function initDB() {
             )
         `);
         
-        // Table quiz_results
         await client.query(`
             CREATE TABLE IF NOT EXISTS quiz_results (
                 id SERIAL PRIMARY KEY,
@@ -75,7 +70,6 @@ async function initDB() {
             )
         `);
         
-        // Table announcements
         await client.query(`
             CREATE TABLE IF NOT EXISTS announcements (
                 id SERIAL PRIMARY KEY,
@@ -88,9 +82,9 @@ async function initDB() {
             )
         `);
         
-        // Insertion de données de démo si tables vides
-        const result = await client.query('SELECT COUNT(*) FROM courses');
-        if (parseInt(result.rows[0].count) === 0) {
+        // Données de démo
+        const count = await client.query('SELECT COUNT(*) FROM courses');
+        if (parseInt(count.rows[0].count) === 0) {
             await client.query(`
                 INSERT INTO courses (titre, description, formateur, niveau, duree, progression) VALUES
                 ('HTML & CSS', 'Maîtrisez les bases du web', 'Maxime', 'Débutant', '20h', 75),
@@ -100,8 +94,8 @@ async function initDB() {
             `);
         }
         
-        const resultStudents = await client.query('SELECT COUNT(*) FROM students');
-        if (parseInt(resultStudents.rows[0].count) === 0) {
+        const countStudents = await client.query('SELECT COUNT(*) FROM students');
+        if (parseInt(countStudents.rows[0].count) === 0) {
             await client.query(`
                 INSERT INTO students (nom, email, groupe) VALUES
                 ('Alice Martin', 'alice@email.com', 'G1'),
@@ -110,7 +104,7 @@ async function initDB() {
             `);
         }
         
-        console.log('✅ Base de données initialisée');
+        console.log('✅ Base PostgreSQL initialisée');
     } catch (err) {
         console.error('❌ Erreur init DB:', err);
     } finally {
