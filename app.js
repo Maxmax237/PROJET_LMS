@@ -3,7 +3,18 @@
    ============================================================ */
 
 'use strict';
+// Données de démonstration (à ajouter temporairement)
+const fakeCourses = [
+    { id: 1, titre: "HTML & CSS", niveau: "Débutant", formateur: "Maxime", progression: 75 },
+    { id: 2, titre: "JavaScript", niveau: "Intermédiaire", formateur: "Sophie", progression: 40 },
+    { id: 3, titre: "React", niveau: "Avancé", formateur: "Alex", progression: 20 }
+];
 
+const fakeStudents = [
+    { id: 1, nom: "Alice Martin", email: "alice@email.com", groupe: "G1" },
+    { id: 2, nom: "Bob Durand", email: "bob@email.com", groupe: "G1" },
+    { id: 3, nom: "Claire Petit", email: "claire@email.com", groupe: "G2" }
+];
 // ───────────────────────────────────────────────
 // API helpers
 // ───────────────────────────────────────────────
