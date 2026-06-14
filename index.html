@@ -1,550 +1,223 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>EduTrack LMS — Plateforme Pédagogique</title>
-  <!-- À corriger comme ceci -->
-<link rel="stylesheet" href="style.css">
-<script src="app.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="css/style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTrack LMS</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<aside id="sidebar" class="sidebar">
-  <div class="sidebar-header">
-    <div class="logo">
-      <i class="fas fa-graduation-cap"></i>
-      <span>EduTrack</span>
-    </div>
-    <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Réduire le menu">
-      <i class="fas fa-bars"></i>
-    </button>
-  </div>
+<div id="app">
+    <!-- Menu de navigation -->
+    <nav>
+        <a href="#" onclick="changerPage('dashboard')"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+        <a href="#" onclick="changerPage('courses')"><i class="fas fa-book"></i> Cours</a>
+        <a href="#" onclick="changerPage('students')"><i class="fas fa-users"></i> Apprenants</a>
+        <a href="#" onclick="changerPage('progress')"><i class="fas fa-chart-line"></i> Suivi</a>
+        <a href="#" onclick="changerPage('quizzes')"><i class="fas fa-puzzle-piece"></i> Quiz</a>
+        <a href="#" onclick="changerPage('announcements')"><i class="fas fa-bullhorn"></i> Annonces</a>
+    </nav>
 
-  <nav class="sidebar-nav" role="navigation" aria-label="Menu principal">
-    <ul>
-      <li>
-        <a href="#" class="nav-link active" data-page="dashboard">
-          <i class="fas fa-th-large"></i><span>Tableau de bord</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="courses">
-          <i class="fas fa-book-open"></i><span>Cours</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="students">
-          <i class="fas fa-users"></i><span>Apprenants</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="progress">
-          <i class="fas fa-chart-line"></i><span>Suivi Pédagogique</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="quizzes">
-          <i class="fas fa-question-circle"></i><span>Quiz & Évaluations</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="announcements">
-          <i class="fas fa-bullhorn"></i><span>Annonces</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-  <div class="sidebar-footer">
-    <div class="user-info">
-      <div class="user-avatar">AD</div>
-      <div class="user-details">
-        <span class="user-name">Administrateur</span>
-        <span class="user-role">Formateur</span>
-      </div>
-    </div>
-  </div>
-</aside>
-
-<!-- MAIN CONTENT -->
-<div id="main-wrapper" class="main-wrapper">
-
-  <!-- TOP BAR -->
-  <header class="topbar" role="banner">
-    <div class="topbar-left">
-      <button id="mobile-toggle" class="mobile-toggle" aria-label="Menu">
-        <i class="fas fa-bars"></i>
-      </button>
-      <h1 id="page-title" class="page-title">Tableau de bord</h1>
-    </div>
-    <div class="topbar-right">
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" id="global-search" placeholder="Rechercher..." aria-label="Recherche globale"/>
-      </div>
-      <div class="notification-bell">
-        <i class="fas fa-bell"></i>
-        <span class="notif-badge">3</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- PAGE CONTENT -->
-  <main id="page-content" class="page-content" role="main">
-
-    <!-- ===== DASHBOARD PAGE ===== -->
-    <section id="page-dashboard" class="page active" aria-label="Tableau de bord">
-      <div class="stats-grid">
-        <article class="stat-card card-blue">
-          <div class="stat-icon"><i class="fas fa-users"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" id="stat-students">0</span>
-            <span class="stat-label">Apprenants actifs</span>
-          </div>
-          <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +2 ce mois</div>
-        </article>
-        <article class="stat-card card-green">
-          <div class="stat-icon"><i class="fas fa-book-open"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" id="stat-courses">0</span>
-            <span class="stat-label">Cours actifs</span>
-          </div>
-          <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +1 ce mois</div>
-        </article>
-        <article class="stat-card card-orange">
-          <div class="stat-icon"><i class="fas fa-chart-pie"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" id="stat-completions">0%</span>
-            <span class="stat-label">Taux de complétion</span>
-          </div>
-          <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +5% ce mois</div>
-        </article>
-        <article class="stat-card card-purple">
-          <div class="stat-icon"><i class="fas fa-certificate"></i></div>
-          <div class="stat-info">
-            <span class="stat-value" id="stat-certs">0</span>
-            <span class="stat-label">Certificats émis</span>
-          </div>
-          <div class="stat-trend up"><i class="fas fa-arrow-up"></i> +3 ce mois</div>
-        </article>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="dash-card">
-          <div class="card-header">
-            <h2>Progression par cours</h2>
-          </div>
-          <div class="chart-container" style="height:300px;">
-            <canvas id="chart-progress"></canvas>
-          </div>
-        </div>
-        <div class="dash-card">
-          <div class="card-header">
-            <h2>Répartition des statuts</h2>
-          </div>
-          <div class="chart-container" style="height:300px;">
-            <canvas id="chart-status"></canvas>
-          </div>
-        </div>
-        <div class="dash-card">
-          <div class="card-header">
-            <h2>Activité récente</h2>
-            <a href="#" class="btn-link" data-page="progress">Voir tout</a>
-          </div>
-          <ul id="recent-activity" class="activity-list"></ul>
-        </div>
-        <div class="dash-card">
-          <div class="card-header">
-            <h2>Annonces récentes</h2>
-            <a href="#" class="btn-link" data-page="announcements">Voir tout</a>
-          </div>
-          <ul id="dash-announcements" class="announcement-mini-list"></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== COURSES PAGE ===== -->
-    <section id="page-courses" class="page" aria-label="Gestion des cours">
-      <div class="page-actions">
-        <div class="filter-bar">
-          <select id="course-filter-status" class="filter-select" aria-label="Filtrer par statut">
-            <option value="">Tous les statuts</option>
-            <option value="Actif">Actif</option>
-            <option value="Brouillon">Brouillon</option>
-            <option value="Archivé">Archivé</option>
-          </select>
-          <select id="course-filter-level" class="filter-select" aria-label="Filtrer par niveau">
-            <option value="">Tous les niveaux</option>
-            <option value="Débutant">Débutant</option>
-            <option value="Intermédiaire">Intermédiaire</option>
-            <option value="Avancé">Avancé</option>
-          </select>
-          <select id="course-filter-category" class="filter-select" aria-label="Filtrer par catégorie">
-            <option value="">Toutes les catégories</option>
-          </select>
-        </div>
-        <button class="btn-primary" id="btn-add-course">
-          <i class="fas fa-plus"></i> Nouveau cours
-        </button>
-      </div>
-      <div id="courses-grid" class="courses-grid"></div>
-    </section>
-
-    <!-- ===== STUDENTS PAGE ===== -->
-    <section id="page-students" class="page" aria-label="Gestion des apprenants">
-      <div class="page-actions">
-        <div class="filter-bar">
-          <select id="student-filter-group" class="filter-select" aria-label="Filtrer par groupe">
-            <option value="">Tous les groupes</option>
-          </select>
-          <select id="student-filter-status" class="filter-select" aria-label="Filtrer par statut">
-            <option value="">Tous les statuts</option>
-            <option value="Actif">Actif</option>
-            <option value="Inactif">Inactif</option>
-            <option value="Suspendu">Suspendu</option>
-          </select>
-        </div>
-        <button class="btn-primary" id="btn-add-student">
-          <i class="fas fa-user-plus"></i> Nouvel apprenant
-        </button>
-      </div>
-      <div class="table-wrapper">
-        <table id="students-table" class="data-table" aria-label="Liste des apprenants">
-          <thead>
-            <tr>
-              <th>Apprenant</th>
-              <th>Email</th>
-              <th>Groupe</th>
-              <th>Cours inscrits</th>
-              <th>Statut</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="students-tbody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ===== PROGRESS PAGE ===== -->
-    <section id="page-progress" class="page" aria-label="Suivi pédagogique">
-      <div class="progress-filters">
-        <div class="filter-bar">
-          <select id="prog-filter-course" class="filter-select" aria-label="Filtrer par cours">
-            <option value="">Tous les cours</option>
-          </select>
-          <select id="prog-filter-student" class="filter-select" aria-label="Filtrer par apprenant">
-            <option value="">Tous les apprenants</option>
-          </select>
-          <select id="prog-filter-status" class="filter-select" aria-label="Filtrer par statut">
-            <option value="">Tous les statuts</option>
-            <option value="En cours">En cours</option>
-            <option value="Terminé">Terminé</option>
-            <option value="Non commencé">Non commencé</option>
-            <option value="Abandonné">Abandonné</option>
-          </select>
-        </div>
-        <div class="export-actions">
-          <button class="btn-outline" id="btn-export-progress">
-            <i class="fas fa-file-csv"></i> Exporter CSV
-          </button>
-        </div>
-      </div>
-
-      <div class="progress-summary-cards" id="progress-summary-cards"></div>
-
-      <div class="table-wrapper">
-        <table id="progress-table" class="data-table" aria-label="Suivi pédagogique">
-          <thead>
-            <tr>
-              <th>Apprenant</th>
-              <th>Cours</th>
-              <th>Progression</th>
-              <th>Score</th>
-              <th>Statut</th>
-              <th>Certificat</th>
-            </tr>
-          </thead>
-          <tbody id="progress-tbody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ===== QUIZZES PAGE ===== -->
-    <section id="page-quizzes" class="page" aria-label="Quiz et évaluations">
-      <div class="page-actions">
-        <div class="filter-bar">
-          <select id="quiz-filter-course" class="filter-select" aria-label="Filtrer par cours">
-            <option value="">Tous les cours</option>
-          </select>
-        </div>
-        <button class="btn-primary" id="btn-add-quiz">
-          <i class="fas fa-plus"></i> Nouveau quiz
-        </button>
-      </div>
-      <div id="quizzes-container"></div>
-    </section>
-
-    <!-- ===== ANNOUNCEMENTS PAGE ===== -->
-    <section id="page-announcements" class="page" aria-label="Annonces">
-      <div class="page-actions">
-        <div class="filter-bar">
-          <select id="ann-filter-priority" class="filter-select" aria-label="Filtrer par priorité">
-            <option value="">Toutes priorités</option>
-            <option value="Normal">Normal</option>
-            <option value="Important">Important</option>
-            <option value="Urgent">Urgent</option>
-          </select>
-        </div>
-        <button class="btn-primary" id="btn-add-announcement">
-          <i class="fas fa-plus"></i> Nouvelle annonce
-        </button>
-      </div>
-      <div id="announcements-list"></div>
-    </section>
-
-  </main>
+    <!-- Contenu principal -->
+    <main id="main-content">
+        <h1>Bienvenue sur EduTrack</h1>
+        <p>Chargement des données...</p>
+    </main>
 </div>
 
-<!-- ===== MODALS ===== -->
+<!-- JavaScript -->
+<script src="app.js"></script>
 
-<!-- Modal Cours -->
-<div id="modal-course" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-course-title">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2 id="modal-course-title">Nouveau cours</h2>
-      <button class="modal-close" data-modal="modal-course" aria-label="Fermer"><i class="fas fa-times"></i></button>
-    </div>
-    <form id="form-course" class="modal-form">
-      <input type="hidden" id="course-id"/>
-      <div class="form-grid">
-        <div class="form-group full">
-          <label for="course-title">Titre du cours *</label>
-          <input type="text" id="course-title" required placeholder="Ex: Introduction au HTML"/>
-        </div>
-        <div class="form-group full">
-          <label for="course-description">Description *</label>
-          <textarea id="course-description" rows="3" required placeholder="Décrivez le cours..."></textarea>
-        </div>
-        <div class="form-group">
-          <label for="course-category">Catégorie *</label>
-          <input type="text" id="course-category" required placeholder="Ex: Informatique"/>
-        </div>
-        <div class="form-group">
-          <label for="course-level">Niveau *</label>
-          <select id="course-level" required>
-            <option value="">Sélectionner...</option>
-            <option value="Débutant">Débutant</option>
-            <option value="Intermédiaire">Intermédiaire</option>
-            <option value="Avancé">Avancé</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="course-duration">Durée (heures) *</label>
-          <input type="number" id="course-duration" required min="1" placeholder="20"/>
-        </div>
-        <div class="form-group">
-          <label for="course-instructor">Formateur *</label>
-          <input type="text" id="course-instructor" required placeholder="Nom du formateur"/>
-        </div>
-        <div class="form-group">
-          <label for="course-status">Statut</label>
-          <select id="course-status">
-            <option value="Actif">Actif</option>
-            <option value="Brouillon">Brouillon</option>
-            <option value="Archivé">Archivé</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="course-modules">Nbre de modules</label>
-          <input type="number" id="course-modules" min="0" placeholder="5"/>
-        </div>
-        <div class="form-group full">
-          <label for="course-objectives">Objectifs pédagogiques</label>
-          <textarea id="course-objectives" rows="2" placeholder="Ce que l'apprenant saura faire..."></textarea>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-outline" data-modal="modal-course">Annuler</button>
-        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
-      </div>
-    </form>
-  </div>
-</div>
+<script>
+    // Variables globales
+    let chart1 = null;
+    let chart2 = null;
 
-<!-- Modal Apprenant -->
-<div id="modal-student" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-student-title">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2 id="modal-student-title">Nouvel apprenant</h2>
-      <button class="modal-close" data-modal="modal-student" aria-label="Fermer"><i class="fas fa-times"></i></button>
-    </div>
-    <form id="form-student" class="modal-form">
-      <input type="hidden" id="student-id"/>
-      <div class="form-grid">
-        <div class="form-group full">
-          <label for="student-name">Nom complet *</label>
-          <input type="text" id="student-name" required placeholder="Prénom Nom"/>
-        </div>
-        <div class="form-group">
-          <label for="student-email">Email *</label>
-          <input type="email" id="student-email" required placeholder="email@exemple.com"/>
-        </div>
-        <div class="form-group">
-          <label for="student-phone">Téléphone</label>
-          <input type="text" id="student-phone" placeholder="+225 07 00 00 00"/>
-        </div>
-        <div class="form-group">
-          <label for="student-group">Groupe</label>
-          <input type="text" id="student-group" placeholder="Ex: Groupe A"/>
-        </div>
-        <div class="form-group">
-          <label for="student-status">Statut</label>
-          <select id="student-status">
-            <option value="Actif">Actif</option>
-            <option value="Inactif">Inactif</option>
-            <option value="Suspendu">Suspendu</option>
-          </select>
-        </div>
-        <div class="form-group full">
-          <label>Cours inscrits</label>
-          <div id="courses-checkboxes" class="courses-checkboxes"></div>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-outline" data-modal="modal-student">Annuler</button>
-        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
-      </div>
-    </form>
-  </div>
-</div>
+    // Fonction pour changer de page
+    function changerPage(page) {
+        const content = document.getElementById('main-content');
+        switch(page) {
+            case 'dashboard':
+                afficherDashboard(content);
+                break;
+            case 'courses':
+                afficherCourses(content);
+                break;
+            case 'students':
+                afficherStudents(content);
+                break;
+            case 'progress':
+                afficherProgress(content);
+                break;
+            case 'quizzes':
+                afficherQuizzes(content);
+                break;
+            case 'announcements':
+                afficherAnnouncements(content);
+                break;
+            default:
+                afficherDashboard(content);
+        }
+    }
 
-<!-- Modal Quiz -->
-<div id="modal-quiz" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-quiz-title">
-  <div class="modal-box modal-large">
-    <div class="modal-header">
-      <h2 id="modal-quiz-title">Nouveau quiz</h2>
-      <button class="modal-close" data-modal="modal-quiz" aria-label="Fermer"><i class="fas fa-times"></i></button>
-    </div>
-    <form id="form-quiz" class="modal-form">
-      <input type="hidden" id="quiz-id"/>
-      <div class="form-grid">
-        <div class="form-group full">
-          <label for="quiz-title">Titre du quiz *</label>
-          <input type="text" id="quiz-title" required placeholder="Ex: QCM Chapitre 1"/>
-        </div>
-        <div class="form-group">
-          <label for="quiz-course">Cours *</label>
-          <select id="quiz-course" required>
-            <option value="">Sélectionner un cours...</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="quiz-passing">Score minimum (%)</label>
-          <input type="number" id="quiz-passing" min="0" max="100" value="60"/>
-        </div>
-        <div class="form-group">
-          <label for="quiz-time">Durée (minutes)</label>
-          <input type="number" id="quiz-time" min="1" value="15"/>
-        </div>
-        <div class="form-group">
-          <label for="quiz-attempts">Tentatives max</label>
-          <input type="number" id="quiz-attempts" min="1" value="3"/>
-        </div>
-      </div>
-      <div class="quiz-questions-section">
-        <div class="questions-header">
-          <h3>Questions</h3>
-          <button type="button" class="btn-outline" id="btn-add-question">
-            <i class="fas fa-plus"></i> Ajouter une question
-          </button>
-        </div>
-        <div id="questions-list"></div>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-outline" data-modal="modal-quiz">Annuler</button>
-        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
-      </div>
-    </form>
-  </div>
-</div>
+    // DASHBOARD
+    function afficherDashboard(container) {
+        let courses = getCourses();
+        let students = getStudents();
+        let enrollments = getEnrollments();
+        
+        let coursActifs = courses.filter(c => c.statut === 'actif').length;
+        let apprenantsActifs = students.filter(s => s.statut === 'actif').length;
+        let tauxCompletion = enrollments.filter(e => e.progression >= 80).length;
+        
+        let html = `
+            <h1>Tableau de bord</h1>
+            <div class="cards">
+                <div class="card"><h3>${apprenantsActifs}</h3><p>Apprenants actifs</p></div>
+                <div class="card"><h3>${coursActifs}</h3><p>Cours actifs</p></div>
+                <div class="card"><h3>${tauxCompletion}</h3><p>Taux de complétion</p></div>
+            </div>
+            <div class="charts">
+                <canvas id="chart-cours" width="400" height="200"></canvas>
+                <canvas id="chart-inscriptions" width="400" height="200"></canvas>
+            </div>
+        `;
+        container.innerHTML = html;
+        
+        // Graphiques
+        let ctx1 = document.getElementById('chart-cours').getContext('2d');
+        let ctx2 = document.getElementById('chart-inscriptions').getContext('2d');
+        
+        let nomsCours = courses.map(c => c.titre);
+        let progressions = courses.map(c => c.progression);
+        
+        if (chart1) chart1.destroy();
+        if (chart2) chart2.destroy();
+        
+        chart1 = new Chart(ctx1, { type: 'bar', data: { labels: nomsCours, datasets: [{ label: 'Progression (%)', data: progressions, backgroundColor: '#667eea' }] } });
+        chart2 = new Chart(ctx2, { type: 'doughnut', data: { labels: ['Terminés', 'En cours'], datasets: [{ data: [tauxCompletion, apprenantsActifs - tauxCompletion], backgroundColor: ['#28a745', '#ffc107'] }] } });
+    }
 
-<!-- Modal Annonce -->
-<div id="modal-announcement" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-ann-title">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2 id="modal-ann-title">Nouvelle annonce</h2>
-      <button class="modal-close" data-modal="modal-announcement" aria-label="Fermer"><i class="fas fa-times"></i></button>
-    </div>
-    <form id="form-announcement" class="modal-form">
-      <input type="hidden" id="ann-id"/>
-      <div class="form-grid">
-        <div class="form-group full">
-          <label for="ann-title">Titre *</label>
-          <input type="text" id="ann-title" required placeholder="Titre de l'annonce"/>
-        </div>
-        <div class="form-group full">
-          <label for="ann-content">Contenu *</label>
-          <textarea id="ann-content" rows="4" required placeholder="Contenu de l'annonce..."></textarea>
-        </div>
-        <div class="form-group">
-          <label for="ann-priority">Priorité</label>
-          <select id="ann-priority">
-            <option value="Normal">Normal</option>
-            <option value="Important">Important</option>
-            <option value="Urgent">Urgent</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="ann-course">Cours concerné</label>
-          <select id="ann-course">
-            <option value="">Tous les cours</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="ann-author">Auteur</label>
-          <input type="text" id="ann-author" value="Administrateur"/>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-outline" data-modal="modal-announcement">Annuler</button>
-        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Publier</button>
-      </div>
-    </form>
-  </div>
-</div>
+    // COURS
+    function afficherCourses(container) {
+        let courses = getCourses();
+        let html = '<h1>Gestion des cours</h1><div class="btn-ajouter" onclick="ajouterCoursUI()">+ Nouveau cours</div><div class="courses-grid">';
+        courses.forEach(c => {
+            html += `
+                <div class="course-card">
+                    <h3>${c.titre}</h3>
+                    <p>${c.formateur} • ${c.niveau}</p>
+                    <p>${c.duree} • ${c.inscrits} inscrits</p>
+                    <div class="progress-bar"><div style="width:${c.progression}%"></div></div>
+                    <button onclick="supprimerCours(${c.id})">Supprimer</button>
+                </div>
+            `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
 
-<!-- Modal Vue Quiz (passation) -->
-<div id="modal-take-quiz" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-take-title">
-  <div class="modal-box modal-large">
-    <div class="modal-header">
-      <h2 id="modal-take-title">Passer le quiz</h2>
-      <button class="modal-close" data-modal="modal-take-quiz" aria-label="Fermer"><i class="fas fa-times"></i></button>
-    </div>
-    <div id="quiz-take-content"></div>
-  </div>
-</div>
+    // APPRENANTS
+    function afficherStudents(container) {
+        let students = getStudents();
+        let html = '<h1>Gestion des apprenants</h1><div class="btn-ajouter" onclick="ajouterStudentUI()">+ Nouvel apprenant</div><div class="students-grid">';
+        students.forEach(s => {
+            html += `
+                <div class="student-card">
+                    <img src="${s.avatar}" width="50"><h3>${s.nom}</h3><p>${s.email} • Groupe ${s.groupe}</p>
+                    <button onclick="supprimerEtudiant(${s.id})">Supprimer</button>
+                </div>
+            `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
 
-<!-- Modal Détail Apprenant -->
-<div id="modal-student-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-detail-title">
-  <div class="modal-box modal-large">
-    <div class="modal-header">
-      <h2 id="modal-detail-title">Profil apprenant</h2>
-      <button class="modal-close" data-modal="modal-student-detail" aria-label="Fermer"><i class="fas fa-times"></i></button>
-    </div>
-    <div id="student-detail-content"></div>
-  </div>
-</div>
+    // SUIVI PÉDAGOGIQUE
+    function afficherProgress(container) {
+        let enrollments = getEnrollments();
+        let courses = getCourses();
+        let students = getStudents();
+        let html = '<h1>Suivi pédagogique</h1><table class="progress-table"><tr><th>Apprenant</th><th>Cours</th><th>Progression</th><th>Score</th></tr>';
+        enrollments.forEach(e => {
+            let student = students.find(s => s.id === e.studentId);
+            let course = courses.find(c => c.id === e.courseId);
+            if(student && course) {
+                html += `<tr><td>${student.nom}</td><td>${course.titre}</td><td>${e.progression}%</td><td class="score-${e.score >= 80 ? 'good' : (e.score >= 60 ? 'mid' : 'bad')}">${e.score}%</td></tr>`;
+            }
+        });
+        html += '</table>';
+        container.innerHTML = html;
+    }
 
-<!-- Toast notifications -->
-<div id="toast-container" class="toast-container" aria-live="polite"></div>
+    // QUIZ
+    function afficherQuizzes(container) {
+        let quizzes = getQuizzes();
+        let html = '<h1>Quiz</h1><div class="quizzes-list">';
+        quizzes.forEach(q => {
+            html += `<div class="quiz-card"><h3>${q.titre}</h3><p>Durée: ${q.duree} min | Score min: ${q.scoreMin}%</p><button onclick="passerQuiz(${q.id})">Commencer</button></div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
 
-<script src="js/app.js"></script>
+    // ANNONCES
+    function afficherAnnouncements(container) {
+        let announcements = getAnnouncements();
+        let html = '<h1>Annonces</h1><div class="btn-ajouter" onclick="ajouterAnnonceUI()">+ Nouvelle annonce</div><div class="announcements-list">';
+        announcements.forEach(a => {
+            html += `<div class="annonce-${a.priorite}"><h3>${a.titre}</h3><p>${a.contenu}</p><small>${new Date(a.date).toLocaleDateString()}</small></div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // UI Helper functions
+    function ajouterCoursUI() {
+        let titre = prompt("Titre du cours ?");
+        if(titre) {
+            ajouterCours({ titre, description: "", formateur: "Admin", niveau: "Débutant", categorie: "Général", statut: "actif", duree: "10h", inscrits: 0, progression: 0, modules: 1 });
+            changerPage('courses');
+        }
+    }
+    function ajouterStudentUI() {
+        let nom = prompt("Nom de l'apprenant ?");
+        if(nom) {
+            ajouterEtudiant({ nom, email: prompt("Email ?"), groupe: prompt("Groupe ?"), statut: "actif", avatar: "https://randomuser.me/api/portraits/lego/1.jpg" });
+            changerPage('students');
+        }
+    }
+    function ajouterAnnonceUI() {
+        let titre = prompt("Titre de l'annonce ?");
+        if(titre) {
+            ajouterAnnonce({ titre, contenu: prompt("Contenu ?"), priorite: "normal", auteur: "Admin", coursId: null });
+            changerPage('announcements');
+        }
+    }
+    function passerQuiz(id) {
+        alert("Fonctionnalité quiz à implémenter");
+    }
+
+    // Chargement initial
+    window.onload = () => {
+        changerPage('dashboard');
+    };
+
+    // Exposer les fonctions UI
+    window.changerPage = changerPage;
+    window.ajouterCoursUI = ajouterCoursUI;
+    window.ajouterStudentUI = ajouterStudentUI;
+    window.ajouterAnnonceUI = ajouterAnnonceUI;
+    window.passerQuiz = passerQuiz;
+    window.supprimerCours = supprimerCours;
+    window.supprimerEtudiant = supprimerEtudiant;
+</script>
+
 </body>
 </html>
